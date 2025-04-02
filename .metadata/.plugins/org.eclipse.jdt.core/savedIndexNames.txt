@@ -1,0 +1,5 @@
+INDEX VERSION 1.134+C:\Users\euamo\OneDrive\Desktop\Trabalhos - Java\nivelamento-estagio\.metadata\.plugins\org.eclipse.jdt.core
+4228064582.index
+2481745951.index
+1706615072.index
+1865797976.index
