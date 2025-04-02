@@ -1,0 +1,20 @@
+import com.opencsv.CSVWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
+public class CsvSave {
+    public static void saveToCsv(List<String[]> data, String filePath) throws IOException {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(filePath))) {
+            writer.writeAll(data);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        String pdfPath = "C:\\Users\\euamo\\OneDrive\\Desktop\\Trabalhos - Java\\nivelamento-estagio\\nivelamento-estagio\\downloads\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf";
+        List<String[]> extractedData = PdfExtractor.extractTableFromPdf(pdfPath);
+        
+        saveToCsv(extractedData, "dados.csv");
+        System.out.println("CSV gerado com sucesso!");
+    }
+}

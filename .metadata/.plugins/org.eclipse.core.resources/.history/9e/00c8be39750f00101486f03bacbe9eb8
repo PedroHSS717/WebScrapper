@@ -1,0 +1,33 @@
+import java.io.File;
+import java.io.IOException;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+public class PdfExtractor {
+    public static String extractTextFromPdf(String filePath) throws IOException {
+        // Carrega o documento PDF
+        PDDocument document = Loader.loadPDF(new File(filePath));
+
+        // Extrai o texto do PDF
+        PDFTextStripper stripper = new PDFTextStripper();
+        String text = stripper.getText(document);
+
+        // Fecha o documento
+        document.close();
+
+        return text;
+    }
+
+    public static void main(String[] args) throws IOException {
+        // Caminho do PDF
+        String pdfPath = "C:\\Users\\euamo\\OneDrive\\Desktop\\Trabalhos - Java\\nivelamento-estagio\\nivelamento-estagio\\downloads\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf";
+
+        // Extrai todo o texto do PDF
+        String pdfText = extractTextFromPdf(pdfPath);
+
+        // Exibe o conteúdo do PDF no console
+        System.out.println("Conteúdo do PDF:\n");
+        System.out.println(pdfText);
+    }
+}

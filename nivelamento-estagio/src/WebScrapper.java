@@ -16,10 +16,10 @@ public class WebScrapper {
 
     public static void main(String[] args) {
         try {
-            // Criar pasta para downloads 
+          
             Files.createDirectories(Paths.get(DOWNLOAD_FOLDER));
 
-            // Fazer scraping e baixar PDFs
+           
             Document doc = Jsoup.connect(TARGET_URL).get();
             for (Element link : doc.select("a[href$=.pdf]")) {
                 String fileUrl = link.absUrl("href");
@@ -28,7 +28,7 @@ public class WebScrapper {
             }
             
             
-            // Compactar os arquivos baixados
+            
             zipFiles(DOWNLOAD_FOLDER, ZIP_FILE);
             System.out.println("Processo concluído! Arquivo ZIP criado com sucesso.");
         } catch (IOException e) {
@@ -41,16 +41,11 @@ public class WebScrapper {
     }
 
     private static void downloadFile(String fileURL, String savePath) throws IOException {
-        System.out.println("Baixando: " + fileURL);
-
-        // Criar um objeto File para o arquivo original
+        System.out.println("Baixando: " + fileURL);        
         File file = new File(savePath);
-
-        // Verificar se o arquivo já existe e renomear se necessário
         int i = 1;
         String newSavePath = savePath;
 
-        // Adicionar sufixo (1), (2), etc., até encontrar um nome de arquivo único
         while (file.exists()) {
             System.out.println("Arquivo já existe, tentando novo nome: " + newSavePath); // Log para verificação
             newSavePath = savePath.replaceFirst("(\\.[^.]+)$", "(" + i + ")$1");
@@ -58,9 +53,8 @@ public class WebScrapper {
             i++;
         }
 
-        System.out.println("Caminho final para salvar: " + newSavePath);  // Log para confirmar o caminho final do arquivo
-
-        // Fazer o download para o caminho renomeado, se necessário
+        System.out.println("Caminho final para salvar: " + newSavePath);  
+        
         try (InputStream in = new URL(fileURL).openStream()) {
             System.out.println("Iniciando o download...");
             Files.copy(in, Paths.get(newSavePath));

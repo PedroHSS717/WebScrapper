@@ -1,0 +1,43 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+public class PdfExtractor {
+    public static List<String[]> extractTableFromPdf(String filePath) throws IOException {
+        PDDocument document = Loader.loadPDF(new File(filePath));
+        PDFTextStripper stripper = new PDFTextStripper();
+        String text = stripper.getText(document);
+        document.close();
+
+        List<String[]> tableData = new ArrayList<>();
+        String[] lines = text.split("\n"); // Divide o texto em linhas
+        
+        // Adiciona cabeçalho (ajuste conforme necessário)
+        tableData.add(new String[]{"Código", "Procedimento", "Valor"});
+
+        for (String line : lines) {
+            String[] columns = line.split("\\s{2,}"); // Divide usando múltiplos espaços
+            if (columns.length >= 3) { // Garante pelo menos 3 colunas
+                tableData.add(columns);
+            }
+        }
+        return tableData;
+    }
+
+    public static void main(String[] args) throws IOException {
+        String pdfPath = "C:\\Users\\euamo\\OneDrive\\Desktop\\Trabalhos - Java\\nivelamento-estagio\\nivelamento-estagio\\downloads\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf";
+        
+        // Extrai os dados do PDF
+        List<String[]> extractedData = extractTableFromPdf(pdfPath);
+        
+        // Exibe os primeiros 5 registros para conferência
+        System.out.println("Dados extraídos do PDF:");
+        for (int i = 0; i < Math.min(5, extractedData.size()); i++) {
+            System.out.println(String.join(" | ", extractedData.get(i)));
+        }
+    }
+}
